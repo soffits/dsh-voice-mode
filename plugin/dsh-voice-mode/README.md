@@ -201,6 +201,20 @@ dsh plugin --profile web add dsh-voice-mode
 > （`enabled` / `cacheDir` 则仅由 bundle 配置决定）。
 > 插件 HTTP 命名空间固定为 `/voice-mode`（与客户端打包契约一致，不可配置）。
 
+### 纠正听错的词（`asrReplacements`）
+
+识别器会把中文里夹的人名、英文词听错（例如「Sakina」听成「ski男」）。常规办法热词在这里用不上：sherpa-onnx 只有 transducer 模型支持热词，流式 zipformer 以汉字为单位、写不出英文词，出定稿的 SenseVoice 又没有热词入口。在有热词能力的模型能覆盖之前，替换表是权宜办法：识别之后改写文本，中间结果和定稿都改，所以字幕、草稿和唤醒词看到的都是改好的文本。
+
+```yaml
+- id: voice-mode
+  config:
+    asrReplacements:
+      - from: [ski男]          # 识别器给出的写法，可写多个
+        to: Sakina             # 想要的写法
+```
+
+匹配不区分大小写，中英交界处的空白不影响（「ski 男」同样命中）。写法以英文字母或数字开头/结尾时只匹配整词，所以 `sina` 不会改到 `Sinatra`；汉字没有词界，中文写法按子串匹配。同一位置优先匹配更长的写法，替换结果不会再被匹配。只写确实听到过的错法：太短或太常见的写法也会改掉正常的词。替换表读自插件配置，配置重载后下一次识别请求起生效。
+
 ---
 
 ## 🌐 API
