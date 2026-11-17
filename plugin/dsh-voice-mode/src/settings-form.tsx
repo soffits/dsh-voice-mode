@@ -70,11 +70,11 @@ const setName: React.CSSProperties = { color: t.label, fontSize: 15, fontWeight:
 const setDesc: React.CSSProperties = { color: t.term, fontSize: 13, lineHeight: 1.5 }
 const setChevron: React.CSSProperties = { color: t.term, flex: 'none', transition: 'transform .16s', display: 'inline-flex' }
 const setBody: React.CSSProperties = { borderTop: `1px solid ${t.border}`, margin: '0 16px', paddingBottom: 8 }
-const setRow: React.CSSProperties = { alignItems: 'center', gap: 12, padding: '12px 0', display: 'flex' }
-const setLabelBox: React.CSSProperties = { flexDirection: 'column', flex: 1, gap: 3, minWidth: 0, display: 'flex' }
+const setRow: React.CSSProperties = { alignItems: 'center', flexWrap: 'wrap', gap: 8, columnGap: 12, padding: '12px 0', display: 'flex' }
+const setLabelBox: React.CSSProperties = { flexDirection: 'column', flex: '1 1 180px', gap: 3, minWidth: 0, display: 'flex' }
 const setLabel: React.CSSProperties = { fontSize: 13, lineHeight: '20px' }
 const setHint: React.CSSProperties = { color: t.term, fontSize: 12, lineHeight: '18px' }
-const setSeg: React.CSSProperties = { border: `1px solid ${t.border}`, borderRadius: 8, flexShrink: 0, gap: 2, padding: 2, display: 'inline-flex' }
+const setSeg: React.CSSProperties = { border: `1px solid ${t.border}`, borderRadius: 8, flexShrink: 0, maxWidth: '100%', flexWrap: 'wrap', gap: 2, padding: 2, display: 'inline-flex' }
 const setSegBtn = (on: boolean): React.CSSProperties => ({
   font: 'inherit',
   color: on ? t.label : 'var(--dsw-alias-label-secondary)',
@@ -109,6 +109,9 @@ const focusVisibleCss = `
 }
 @media (prefers-reduced-motion: reduce) {
   [data-dshvm-settings="card"], [data-dshvm-settings="card"] * { transition: none !important; }
+}
+@media (pointer: coarse) {
+  [data-dshvm-settings="card"] button, [data-dshvm-settings="card"] select, [data-dshvm-settings="card"] input:not([type="range"]):not([type="checkbox"]) { min-height: 40px; }
 }`
 
 /** 各引擎切换时的默认音色（语义不同，切换引擎时自动重置）。 */
@@ -707,7 +710,7 @@ function Row({ name, desc, children }: { name: string; desc: string; children: R
         <span style={setLabel}>{label}</span>
         <span style={setHint}>{desc}</span>
       </div>
-      <span style={{ flexShrink: 0, maxWidth: 300 }}>{children}</span>
+      <span style={{ display: 'block', flexShrink: 0, maxWidth: '100%' }}>{children}</span>
     </div>
   )
 }
