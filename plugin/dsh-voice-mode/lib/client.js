@@ -2841,11 +2841,11 @@ var setName = { color: t2.label, fontSize: 15, fontWeight: 600, lineHeight: 1.4 
 var setDesc = { color: t2.term, fontSize: 13, lineHeight: 1.5 };
 var setChevron = { color: t2.term, flex: "none", transition: "transform .16s", display: "inline-flex" };
 var setBody = { borderTop: `1px solid ${t2.border}`, margin: "0 16px", paddingBottom: 8 };
-var setRow = { alignItems: "center", gap: 12, padding: "12px 0", display: "flex" };
-var setLabelBox = { flexDirection: "column", flex: 1, gap: 3, minWidth: 0, display: "flex" };
+var setRow = { alignItems: "center", flexWrap: "wrap", gap: 8, columnGap: 12, padding: "12px 0", display: "flex" };
+var setLabelBox = { flexDirection: "column", flex: "1 1 180px", gap: 3, minWidth: 0, display: "flex" };
 var setLabel = { fontSize: 13, lineHeight: "20px" };
 var setHint = { color: t2.term, fontSize: 12, lineHeight: "18px" };
-var setSeg = { border: `1px solid ${t2.border}`, borderRadius: 8, flexShrink: 0, gap: 2, padding: 2, display: "inline-flex" };
+var setSeg = { border: `1px solid ${t2.border}`, borderRadius: 8, flexShrink: 0, maxWidth: "100%", flexWrap: "wrap", gap: 2, padding: 2, display: "inline-flex" };
 var setSegBtn = (on) => ({
   font: "inherit",
   color: on ? t2.label : "var(--dsw-alias-label-secondary)",
@@ -2880,6 +2880,9 @@ var focusVisibleCss = `
 }
 @media (prefers-reduced-motion: reduce) {
   [data-dshvm-settings="card"], [data-dshvm-settings="card"] * { transition: none !important; }
+}
+@media (pointer: coarse) {
+  [data-dshvm-settings="card"] button, [data-dshvm-settings="card"] select, [data-dshvm-settings="card"] input:not([type="range"]):not([type="checkbox"]) { min-height: 40px; }
 }`;
 var ENGINE_DEFAULT_VOICE = {
   // 与 host 侧引擎 defaultVoice 对齐（VITS suyingxue / Kokoro zf_xiaobei），
@@ -3381,7 +3384,7 @@ function Row({ name: name2, desc, children }) {
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: setLabel, children: label }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: setHint, children: desc })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { flexShrink: 0, maxWidth: 300 }, children })
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "block", flexShrink: 0, maxWidth: "100%" }, children })
   ] });
 }
 var NEXT_ENTRY_FIELDS = [
@@ -4038,7 +4041,7 @@ function telemetryDeltas(tel) {
   }
   return out;
 }
-var BUILD_TAG = "84fe326";
+var BUILD_TAG = "3fe36d4";
 var TELEMETRY_FLAG = "dsh-voice-mode.telemetry";
 var telemetryEnabled = typeof localStorage !== "undefined" && localStorage.getItem(TELEMETRY_FLAG) === "1";
 console.log("[dsh-voice] build=" + BUILD_TAG);
